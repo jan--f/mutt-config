@@ -1,0 +1,166 @@
+# In dieser Datei stehen alle Einstellungen zu PGP/GPG
+# Die Einstellungen sind fast alle von Thomas Roessler
+# <roessler@mutt.org>. Desweiteren sind Einstellungen
+# für S/MIME enthalten. Da ich in der aktuellen mutt-
+# Version keinen S/MIME-Patch habe, sind die S/MIME-
+# Optionen hier deaktiviert
+
+# -*-muttrc-*-
+#
+# Command formats for gpg.
+# 
+# This version uses gpg-2comp from 
+#   http://muppet.faveve.uni-stuttgart.de/~gero/gpg-2comp.tar.gz
+#
+# $Id: gpg.rc,v 1.4 1999/10/14 15:16:55 roessler Exp $
+#
+# %p    The empty string when no passphrase is needed,
+#       the string "PGPPASSFD=0" if one is needed.
+#
+#       This is mostly used in conditional % sequences.
+#
+# %f    Most PGP commands operate on a single file or a file
+#       containing a message.  %f expands to this file's name.
+#
+# %s    When verifying signatures, there is another temporary file
+#       containing the detached signature.  %s expands to this
+#       file's name.
+#
+# %a    In "signing" contexts, this expands to the value of the
+#       configuration variable $pgp_sign_as.  You probably need to
+#       use this within a conditional % sequence.
+#
+# %r    In many contexts, mutt passes key IDs to pgp.  %r expands to
+#       a list of key IDs.
+
+# decode application/pgp
+set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch -o - %f"
+
+# verify a pgp/mime signature
+set pgp_verify_command="gpg --no-verbose --batch -o - --verify %s %f"
+
+# decrypt a pgp/mime attachment
+set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch -o - %f"
+
+# create a pgp/mime signed attachment
+set pgp_sign_command="gpg --no-verbose --batch -o - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+
+# create a application/pgp signed (old-style) message
+set pgp_clearsign_command="gpg-2comp --no-verbose --batch -o - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+
+# create a pgp/mime encrypted attachment
+set pgp_encrypt_only_command="pgpewrap gpg-2comp -v --batch -o - --encrypt --textmode --armor --always-trust -- -r %r -- %f"
+
+# create a pgp/mime encrypted and signed attachment
+set pgp_encrypt_sign_command="pgpewrap gpg-2comp --passphrase-fd 0 -v --batch -o - --encrypt --sign %?a?-u %a? --armor --always-trust -- -r %r -- %f"
+
+# import a key into the public key ring
+set pgp_import_command="gpg --no-verbose --import -v %f"
+
+# export a key from the public key ring
+set pgp_export_command="gpg --no-verbose --export --armor %r"
+
+# verify a key
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+
+# read in the public key ring
+set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r" 
+
+# read in the secret key ring
+set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r" 
+
+# receive key from keyserver:
+#set pgp_getkeys_command="wrap.sh -g %r"
+#set pgp_getkeys_command=""
+
+#### pgp options
+
+#set crypt_replyencrypt=yes
+#set crypt_replysign=yes
+#set crypt_replysignencrypted=yes
+set pgp_show_unusable=no
+set pgp_retainable_sigs=no
+set pgp_sign_as="61A7BA87"
+#set pgp_sign_micalg="pgp-sha1"
+set pgp_strict_enc=yes
+set pgp_timeout=30
+#set crypt_verify_sig=yes
+set pgp_sort_keys=address
+set pgp_create_traditional=no
+
+#### S/MIME Optionen - nur verfügbar und gültig, wenn
+# S/MIME-Unterstützungeinkompiliert wurde.
+
+#unset smime_is_default
+
+# Section A: Key Management.
+
+# The (default) keyfile for signing/decrypting.
+#set smime_sign_as="30a124f5.0"
+
+# Path to where all known certificates go. (must exist!)
+#set smime_certificates="~/.smime/certificates"
+
+# Path to where all private keys go. (must exist!)
+#set smime_keys="~/.smime/keys"
+
+# These are used to extract a certificate from a message.
+# First generate a PKCS#7 structure from the message.
+#set smime_pk7out_command="openssl smime -verify -in %f -noverify -pk7out"
+
+# Extract the included certificate(s) from a PKCS#7 structure.
+#set smime_get_cert_command="openssl pkcs7 -print_certs -in %f"
+
+# This is used to get a filename for certificates that get stored in the
+# above directory
+#set smime_hash_cert_command="openssl x509 -in  %f -noout -hash"
+
+# This is used to get the email address the certificate was issued to.
+#set smime_get_cert_email_command="openssl x509 -in  %f -noout -email"
+
+
+# Sction B: Outgoing messages
+
+# Algorithm to use for encryption.
+# valid choices are rc2-40, rc2-64, rc2-128, des, des3
+#set smime_encrypt_with="des3"
+
+# Encrypt a message. Input file is a MIME entity.
+#set smime_encrypt_command="openssl smime -encrypt -%a -outform DER -in %f %c"
+
+# Sign.
+#set smime_sign_command="openssl smime -sign -signer %c -inkey %k -passin stdin -in %f -outform DER"
+
+#Section C: Incoming messages
+
+# Decrypt a message. Output is a MIME entity.
+#set smime_decrypt_command="openssl smime -decrypt  -passin stdin -inform DER -in %f -inkey %k -recip %c"
+
+# Verify a signature of type multipart/signed
+#set smime_verify_command="openssl smime -verify -inform DER -in %s -content %f -noverify"
+
+# Verify a signature of type application/x-pkcs7-mime
+#set smime_verify_opaque_command="openssl smime -verify -inform DER -in %s -noverify"
+
+
+# Section D: Alternatives
+
+# Sign.  If you wish to include the certificate your CA used in signing your
+# public key, use this command instead.
+# set smime_sign_command="openssl smime -sign -signer %c -inkey %k -passin stdin -in %f -certfile %i -outform DER"
+#
+# In order to verify the signature and the certificate chain:
+#
+#   Note, that the check will fail if the issuer's certificate hasn't been
+#         included with the signature, or the proper root certificate
+#         wasn't found. openssl will complain about this.
+#
+# set smime_verify_command="openssl smime -verify -CAfile /home/elmi/.smime/ca-bundle.crt.text  -inform DER -in %s -content %f"
+#
+# set smime_verify_opaque_command="openssl smime -verify -CAfile /home/elmi/.smime/ca-bundle.crt.text  -inform DER -in %s"
+# Or if you already installed the root certificates
+#set smime_verify_command="openssl smime -verify -CApath ~/.smime/root_certs  -inform DER -in %s -content %f"
+#
+#set smime_verify_opaque_command="openssl smime -verify -CApath ~/.smime/root_certs  -inform DER -in %s"
+#
+#

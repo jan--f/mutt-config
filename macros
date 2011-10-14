@@ -1,0 +1,5 @@
+macro compose v "<edit-from>^Uident_<tab>" "Select from"
+#macro generic "<esc>1" ":set from=fajerski@informatik.hu-berlin.de"
+#macro generic "<esc>2" ":set from=jan-fajerski@gmx.net"
+#macro generic "<esc>3" ":set from=jangingnicht@web.de"
+macro pager \cb <pipe-entry>'urlview'<enter> 'Follow links with urlview'

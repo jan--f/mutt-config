@@ -1,0 +1,27 @@
+# sorting
+set sort=threads
+set sort_aux=reverse-date
+set pager_index_lines=5		#You might want to increase this
+set pager_context=1
+set index_format='%4C %Z %{%b %d} %-15.15F (%4l) %s'
+
+# misc options
+set charset="utf-8"
+set locale=`echo "${LC_ALL:-${LC_TIME:-${LANG}}}"`
+set send_charset="us-ascii:iso-8859-15:utf-8"
+set editor="/usr/bin/vim +8"
+set reverse_alias
+unset allow_8bit
+# dont ask me again
+set delete=yes
+
+# antwort emails
+set forward_format="Fwd: %s"
+set indent_str="> "
+unset reply_self
+set fcc_attach
+set edit_hdrs
+
+# keep send messages
+set copy=yes
+set record="$folder/sent"

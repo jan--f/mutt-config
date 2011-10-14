@@ -1,0 +1,31 @@
+set sendmail="/usr/bin/msmtp"
+set use_from=yes
+set realname="Jan Fajerski"
+set from="jan-fajerski@gmx.net"
+set envelope_from=yes
+set mailcap_path="~/.mutt/mailcap"
+# which to show inline
+#set implicit_autoview
+auto_view text/html application/x-pgp-message
+unset wait_key
+
+# where is my mail
+set folder=~/.mail
+set postpone=yes
+set postponed="$folder/postponed"
+mailboxes "=inbox"
+mailboxes "=magnus"
+mailboxes "=novartis"
+mailboxes "=versorger"
+mailboxes "=ebay"
+mailboxes "=uni"
+mailboxes "=designmob"
+mailboxes "=opensc"
+
+# imports
+source "~/.mutt/alias"
+source "~/.mutt/gpg"
+source "~/.mutt/macros"
+source "~/.mutt/mailinglists"
+source "~/.mutt/options"
+source "~/.mutt/solarized/mutt-colors-solarized-dark-256.muttrc"
