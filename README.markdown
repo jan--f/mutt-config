@@ -13,6 +13,8 @@ Contains the very nice [solarized] (https://github.com/altercation/mutt-colors-s
 * [fetchmail] (http://www.fetchmail.info/) to receive mail; mailboxes is
   expected to be in "~/.mail" (see [muttrc] (https://github.com/jangingnicht/mutt-config/blob/master/muttrc))
 * [maildrop] (http://www.courier-mta.org/maildrop/) as an MDA and your own ~/.mailfilter file
+* [antiword] (http://www.winfield.demon.nl/) for viewing .doc (and the like) attachments inline
+* [lynx] (http://lynx.browser.org/) to unannoy html mails
 
 ## Installation
 
