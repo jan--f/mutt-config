@@ -26,6 +26,7 @@ Install mutt and do
     cd .mutt
     touch alias #my alias file is excluded and mutt will be looking for it
     touch mailinglists #same as above
+    touch send-hooks #same as above
     git submodule init
     git submodule update
 
