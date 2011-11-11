@@ -4,6 +4,7 @@ set realname="Jan Fajerski"
 set from="jan-fajerski@gmx.net"
 set envelope_from=yes
 set mailcap_path="~/.mutt/mailcap"
+set alias_file="~/.mutt/alias"
 # which to show inline
 #set implicit_autoview
 auto_view text/html application/x-pgp-message
@@ -23,7 +24,7 @@ mailboxes "=designmob"
 mailboxes "=opensc"
 
 # imports
-source "~/.mutt/alias"
+source $alias_file
 source "~/.mutt/gpg"
 source "~/.mutt/macros"
 source "~/.mutt/mailinglists"
