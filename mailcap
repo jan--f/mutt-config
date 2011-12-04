@@ -1,10 +1,13 @@
 text/html; lynx -dump -assume_charset=%{charset} -display_charset='utf8' -force_html %s; needsterminal; copiousoutput
 application/msword; antiword %s ; copiousoutput
-application/pdf; evince %s
-application/Pdf; evince %s
-application/PDF; evince %s
+application/pdf; epdfview %s
+application/Pdf; epdfview %s
+application/PDF; epdfview %s
 image/jpeg; mirage %s
 image/gif; mirage %s
 image/GIF; mirage %s
 image/JPG; mirage %s
 image/jpg; mirage %s
+image/png; mirage %s
+image/PNG; mirage %s
+image/Png; mirage %s
